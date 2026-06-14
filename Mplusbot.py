@@ -4,7 +4,7 @@ from discord.ui import Button, View
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
+from discord import app_commands
 
 #----Bot-Setup mit notwendigen Rechten (Intents)----#
 intents = discord.Intents.default()
@@ -201,6 +201,12 @@ async def on_ready():
 
 # Der Slash-Command zum Erstellen der Gruppe
 @bot.tree.command(name="mplus", description="Erstelle eine neue Mythic+ Gruppensuche")
+@app_commands.rename(dungeon=r"aktivität", key_level=r"key-stufe", date_time=r"wann")
+# Fügt die grauen Beschreibungen/Erklärungen im Interface hinzu
+@app_commands.describe(
+    dungeon="Was möchtest du machen?",
+    key_level="Die Stufe des Mythic+ Keys (z.B. 12)",
+    date_time="Wann soll es losgehen? (z.B. Heute 20:00)")
 async def mplus(interaction: discord.Interaction, dungeon: str, key_level: int, date_time: str):
     
     # Erstelle das Daten-Objekt für die Gruppe
@@ -239,6 +245,14 @@ async def mplus(interaction: discord.Interaction, dungeon: str, key_level: int, 
         overwrites=overwrites)
     new_group.voice_channel = voice_private_channel
     #view.group.voice_channel = voice_private_channel
+
+
+
+
+
+
+
+
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 if TOKEN:
